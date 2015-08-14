@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var tipDefault: UISlider!
     override func viewDidLoad() {
         super.viewDidLoad()
 

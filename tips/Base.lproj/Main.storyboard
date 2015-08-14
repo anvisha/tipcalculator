@@ -84,7 +84,7 @@
                     <navigationItem key="navigationItem" id="RyD-tj-6M8">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="Xtq-hQ-5t5">
                             <connections>
-                                <segue destination="jdp-hj-JSA" kind="modal" id="3VO-VJ-A9p"/>
+                                <segue destination="JRQ-o5-KhM" kind="modal" id="3VO-VJ-A9p"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -111,12 +111,42 @@
                     <view key="view" contentMode="scaleToFill" id="KmU-X0-LlB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default tip percentage" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gYI-1F-Kgn">
+                                <rect key="frame" x="22" y="184" width="170" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="18" minValue="0.0" maxValue="100" id="sGt-z5-oqq">
+                                <rect key="frame" x="198" y="184" width="108" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here, you can change your default app settings" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f9A-dP-Yyh">
+                                <rect key="frame" x="42" y="58" width="236" height="111"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Settings" id="eE2-Uo-SDi">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="2EU-Wb-TOi">
+                            <connections>
+                                <segue destination="VT7-1b-FGE" kind="modal" id="kf0-JK-c1g"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tipDefault" destination="sGt-z5-oqq" id="5hk-E2-jcr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k5G-yt-lcW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1007" y="319"/>
+            <point key="canvasLocation" x="1539" y="319"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1Dg-PI-4Nb">
@@ -135,6 +165,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JW1-oe-oKn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="117" y="319"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="axO-5h-Ivf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JRQ-o5-KhM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8ZL-Vb-UVX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jdp-hj-JSA" kind="relationship" relationship="rootViewController" id="VCg-EK-Xfw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cw2-78-hJH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1007" y="319"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
