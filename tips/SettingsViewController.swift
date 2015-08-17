@@ -10,6 +10,8 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var defaultTipAmount: UISlider!
+    @IBOutlet weak var settingsDone: UIBarButtonItem!
     @IBOutlet weak var tipDefault: UISlider!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,14 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func settingsDoneClicked(sender: AnyObject) {
+        var defaultTip = defaultTipAmount.value
+        println(defaultTip)
+        var defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(18, forKey: "defaultTip")
+        defaults.synchronize()
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

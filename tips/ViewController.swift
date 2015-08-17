@@ -18,7 +18,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaultTip = defaults.integerForKey("defaultTip")
+        if defaultTip == 0 { //First time we load tip, want to set a pre-fixed default
+            defaultTip = 18
+        }
+        println(defaultTip)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

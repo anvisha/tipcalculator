@@ -119,10 +119,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="18" minValue="0.0" maxValue="100" id="sGt-z5-oqq">
-                                <rect key="frame" x="198" y="184" width="108" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here, you can change your default app settings" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f9A-dP-Yyh">
                                 <rect key="frame" x="42" y="58" width="236" height="111"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
@@ -130,18 +126,23 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="wbM-6r-qYY">
+                                <rect key="frame" x="198" y="180" width="118" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="eE2-Uo-SDi">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="2EU-Wb-TOi">
                             <connections>
-                                <segue destination="VT7-1b-FGE" kind="modal" id="kf0-JK-c1g"/>
+                                <action selector="settingsDoneClicked:" destination="jdp-hj-JSA" id="eqr-lM-mOT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tipDefault" destination="sGt-z5-oqq" id="5hk-E2-jcr"/>
+                        <outlet property="defaultTipAmount" destination="wbM-6r-qYY" id="l6r-T7-bLS"/>
+                        <outlet property="settingsDone" destination="2EU-Wb-TOi" id="DGh-Sf-7I1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k5G-yt-lcW" userLabel="First Responder" sceneMemberID="firstResponder"/>
