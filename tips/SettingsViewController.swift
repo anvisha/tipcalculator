@@ -24,9 +24,21 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func settingsDoneClicked(sender: AnyObject) {
-        var defaultTip = defaultTipAmount.value
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaultTip = defaults.integerForKey("defaultTip")
+        if defaultTip == 0 { //First time we load tip, want to set a default
+            defaultTip = 18
+        }
         println(defaultTip)
+    }
+
+    
+    @IBAction func settingsDoneClicked(sender: AnyObject) {
+        //set default tip
+        //TODO: Make this dependent on the slider
+        var defaultTip = defaultTipAmount.value
         var defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(18, forKey: "defaultTip")
         defaults.synchronize()

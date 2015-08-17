@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        billField.delegate = self
+        billField.becomeFirstResponder()
         
     }
     
@@ -25,7 +27,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         var defaults = NSUserDefaults.standardUserDefaults()
         var defaultTip = defaults.integerForKey("defaultTip")
-        if defaultTip == 0 { //First time we load tip, want to set a pre-fixed default
+        if defaultTip == 0 { //First time we load tip, want to set a default
             defaultTip = 18
         }
         println(defaultTip)
