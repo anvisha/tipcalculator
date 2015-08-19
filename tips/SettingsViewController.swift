@@ -26,11 +26,13 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
+        println("hellosettings")
         super.viewWillAppear(animated)
         var defaults = NSUserDefaults.standardUserDefaults()
-        var defaultTip = defaults.doubleForKey("tipDefaults")
-        defaultTipAmount.text = String(format: "%.0f", defaultTip)
+        defaultTipAmount.text = String(format: "%0.f%%", defaults.doubleForKey("defaultTip")*100)
+        minTipAmount.text = String(format: "%.0f%%", defaults.doubleForKey("minTip")*100)
+        maxTipAmount.text = String(format: "%.0f%%", defaults.doubleForKey("maxTip")*100)
     }
 
     
@@ -38,9 +40,9 @@ class SettingsViewController: UIViewController {
         //set default tip amounts in format [default, min, max]
         
         var defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setDouble(defaultTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "defaultTip")
-        defaults.setDouble(minTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "minTip")
-        defaults.setDouble(maxTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "maxTip")
+        defaults.setDouble(defaultTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "defaultTip")
+        defaults.setDouble(minTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "minTip")
+        defaults.setDouble(maxTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "maxTip")
 
         defaults.synchronize()
         dismissViewControllerAnimated(true, completion: nil)

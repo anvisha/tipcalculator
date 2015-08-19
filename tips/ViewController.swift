@@ -15,10 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
-    var tipRightNow = 0.20
-    var minTip = 0.18
-    var defaultTip = 0.20
-    var maxTip = 0.22
+    var tipRightNow = 0.0
+    var minTip = 0.0
+    var defaultTip = 0.0
+    var maxTip = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         handleDefaults()
         
         // Do any additional setup after loading the view, typically from a nib.
+        updateState()
         dismissViewControllerAnimated(true, completion: nil)
         billField.becomeFirstResponder()}
     
@@ -58,7 +59,7 @@ class ViewController: UIViewController {
     }
     
     func updateState() {
-        tipLabel.text = String(format: "$%.2f", tipRightNow)
+        tipLabel.text = String(format: "%.0f%%", tipRightNow*100)
         var billAmount = billField.text._bridgeToObjectiveC().doubleValue
         var tip = billAmount * tipRightNow
         var total = billAmount + tip
