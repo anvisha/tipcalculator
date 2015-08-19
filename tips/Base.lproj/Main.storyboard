@@ -20,15 +20,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yzk-gr-xfy">
-                                <rect key="frame" x="16" y="279" width="66" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pC7-Hw-CKy">
-                                <rect key="frame" x="154" y="279" width="140" height="36"/>
+                                <rect key="frame" x="28" y="273" width="266" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
@@ -159,6 +152,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="defaultTipAmount" destination="hxo-QG-pX5" id="I3h-dt-Rl6"/>
+                        <outlet property="maxTipAmount" destination="nbf-Kr-LAV" id="PXs-VQ-I0i"/>
+                        <outlet property="minTipAmount" destination="ppH-ho-S9k" id="Q2T-1W-lSH"/>
                         <outlet property="settingsDone" destination="2EU-Wb-TOi" id="DGh-Sf-7I1"/>
                     </connections>
                 </viewController>

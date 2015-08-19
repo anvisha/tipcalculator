@@ -10,7 +10,9 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    @IBOutlet weak var defaultTipAmount: UISlider!
+    @IBOutlet weak var defaultTipAmount: UITextField!
+    @IBOutlet weak var minTipAmount: UITextField!
+    @IBOutlet weak var maxTipAmount: UITextField!
     @IBOutlet weak var settingsDone: UIBarButtonItem!
     @IBOutlet weak var tipDefault: UISlider!
     override func viewDidLoad() {
@@ -27,20 +29,19 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         var defaults = NSUserDefaults.standardUserDefaults()
-        var defaultTip = defaults.integerForKey("defaultTip")
-        if defaultTip == 0 { //First time we load tip, want to set a default
-            defaultTip = 18
-        }
-        println(defaultTip)
+        var defaultTip = defaults.doubleForKey("tipDefaults")
+        defaultTipAmount.text = String(format: "%.0f", defaultTip)
     }
 
     
     @IBAction func settingsDoneClicked(sender: AnyObject) {
-        //set default tip
-        //TODO: Make this dependent on the slider
-        var defaultTip = defaultTipAmount.value
+        //set default tip amounts in format [default, min, max]
+        
         var defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(18, forKey: "defaultTip")
+        defaults.setDouble(defaultTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "defaultTip")
+        defaults.setDouble(minTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "minTip")
+        defaults.setDouble(maxTipAmount.text._bridgeToObjectiveC().doubleValue, forKey: "maxTip")
+
         defaults.synchronize()
         dismissViewControllerAnimated(true, completion: nil)
     }

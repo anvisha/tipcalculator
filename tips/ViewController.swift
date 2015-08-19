@@ -15,14 +15,40 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    var tipRightNow = 0.20
+    var minTip = 0.18
+    var defaultTip = 0.20
+    var maxTip = 0.22
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        handleDefaults()
+        
         // Do any additional setup after loading the view, typically from a nib.
+        dismissViewControllerAnimated(true, completion: nil)
         billField.becomeFirstResponder()}
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+    }
+    
+    func handleDefaults() {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        if defaults.doubleForKey("defaultTip") == 0 {
+            defaults.setDouble(0.20, forKey: "defaultTip")
+            defaults.setDouble(0.18, forKey: "minTip")
+            defaults.setDouble(0.22, forKey: "maxTip")
+            defaults.synchronize()
+            
+        }
+        defaultTip = defaults.doubleForKey("defaultTip")
+        minTip = defaults.doubleForKey("minTip")
+        maxTip = defaults.doubleForKey("maxTip")
+        
+        tipRightNow = defaultTip
+
     }
 
 
@@ -31,40 +57,39 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //Helper method to get tip value
-    func getTipValue() -> Double {
-        var defaults = NSUserDefaults.standardUserDefaults()
-        var defaultTip = defaults.integerForKey("defaultTip")
-        if defaultTip == 0 { //First time we load tip, want to set a default
-            return 0.18
-        }
-        else {
-            return Double(defaultTip)/100
-        }
-    }
-
-    @IBAction func onEditingChanged(sender: AnyObject) {
-        
-//        var tipPercentages = [0.18, 0.2, 0.22]
-//        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+    func updateState() {
+        tipLabel.text = String(format: "$%.2f", tipRightNow)
         var billAmount = billField.text._bridgeToObjectiveC().doubleValue
-        println(getTipValue())
-        var tip = billAmount * getTipValue()
+        var tip = billAmount * tipRightNow
         var total = billAmount + tip
         
-        tipLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
+    }
+    
+   
+    @IBAction func onEditingChanged(sender: AnyObject) {
+        
+        updateState()
 
     }
-
+    
+    var xStart: Double = 0.0
+    
     @IBAction func onTotalDragged(recognizer: UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(self.view)
-        if let view = recognizer.view {
-            view.center = CGPoint(x:view.center.x + translation.x,
-                y:view.center.y + translation.y)
+        var translation = recognizer.translationInView(self.view)
+        if recognizer.state == UIGestureRecognizerState.Began {
+            xStart = tipRightNow
         }
-        recognizer.setTranslation(CGPointZero, inView: self.view)
-        println("hi")
+        
+        else if recognizer.state == UIGestureRecognizerState.Changed {
+            var translation = Float(translation.x)
+            var delta = Double(Float(xStart) - translation / 2000)
+            delta = delta > maxTip ? maxTip : delta
+            delta = delta < minTip ? minTip : delta
+            tipRightNow = Double(round(delta*100)/100)
+            updateState()
+        }
+//        println(translation.x)
     }
     
     @IBAction func onTap(sender: AnyObject) {
