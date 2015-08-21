@@ -14,7 +14,8 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var minTipAmount: UITextField!
     @IBOutlet weak var maxTipAmount: UITextField!
     @IBOutlet weak var settingsDone: UIBarButtonItem!
-    @IBOutlet weak var tipDefault: UISlider!
+    @IBOutlet weak var darkModeToggle: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,11 +31,15 @@ class SettingsViewController: UIViewController {
         println("hellosettings")
         super.viewWillAppear(animated)
         var defaults = NSUserDefaults.standardUserDefaults()
-        defaultTipAmount.text = String(format: "%0.f%%", defaults.doubleForKey("defaultTip")*100)
-        minTipAmount.text = String(format: "%.0f%%", defaults.doubleForKey("minTip")*100)
-        maxTipAmount.text = String(format: "%.0f%%", defaults.doubleForKey("maxTip")*100)
+        defaultTipAmount.text = String(format: "%0.f%", defaults.doubleForKey("defaultTip")*100)
+        minTipAmount.text = String(format: "%.0f%", defaults.doubleForKey("minTip")*100)
+        maxTipAmount.text = String(format: "%.0f%", defaults.doubleForKey("maxTip")*100)
+        darkModeToggle.on = defaults.boolForKey("darkMode")
     }
 
+    
+    @IBAction func toggleChanged(sender: AnyObject) {
+    }
     
     @IBAction func settingsDoneClicked(sender: AnyObject) {
         //set default tip amounts in format [default, min, max]
@@ -43,6 +48,7 @@ class SettingsViewController: UIViewController {
         defaults.setDouble(defaultTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "defaultTip")
         defaults.setDouble(minTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "minTip")
         defaults.setDouble(maxTipAmount.text._bridgeToObjectiveC().doubleValue/100, forKey: "maxTip")
+        defaults.setBool(darkModeToggle.on, forKey: "darkMode")
 
         defaults.synchronize()
         dismissViewControllerAnimated(true, completion: nil)

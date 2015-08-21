@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     //UI Labels
+    @IBOutlet var viewContainer: UIView!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
@@ -22,6 +23,8 @@ class ViewController: UIViewController {
     var minTip = 0.0
     var defaultTip = 0.0
     var maxTip = 0.0
+    var darkMode = false
+    var editingStarted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,39 +39,93 @@ class ViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        handleDefaults()
+        if billField.text == "" {
+            setStartState()
+        }
+        else {
+            setEditingState()
+        }
+    }
+    
     func handleDefaults() {
         var defaults = NSUserDefaults.standardUserDefaults()
         if defaults.doubleForKey("defaultTip") == 0 {
             defaults.setDouble(0.20, forKey: "defaultTip")
             defaults.setDouble(0.18, forKey: "minTip")
             defaults.setDouble(0.22, forKey: "maxTip")
+            defaults.setBool(false, forKey: "darkMode")
             defaults.synchronize()
             
         }
         defaultTip = defaults.doubleForKey("defaultTip")
         minTip = defaults.doubleForKey("minTip")
         maxTip = defaults.doubleForKey("maxTip")
+        darkMode = defaults.boolForKey("darkMode")
+        
+        println(darkMode)
+        println("hellodarkmode")
         
         tipRightNow = defaultTip
-
+        
+    }
+//    
+//    func setDarkMode() {
+//        if darkMode {
+//            self.billFieldContainer.backgroundColor = self.UIColorFromRGB()
+//            self.billField.textColor = self.UIColorFromRGB(0xFFFFFF)
+//            self.tipLabel.textColor = self.UIColorFromRGB(0xFFFFFF)
+//        }
+//        else {
+//            
+//        }
+//    }
+//    
+    func enableDarkMode() {
+        self.viewContainer.backgroundColor = self.UIColorFromRGB(0x0C0C0C)
+        self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0x0C0C0C)
+        self.totalLabelContainer.backgroundColor = self.UIColorFromRGB(0x300B1F)
+        self.totalLabel.textColor = self.UIColorFromRGB(0xFFFFFF)
+        self.billField.textColor = self.UIColorFromRGB(0xFFFFFF)
+        self.tipLabel.textColor = self.UIColorFromRGB(0xFFFFFF)
     }
     
     func setStartState() {
+        if darkMode {
+            enableDarkMode()
+        
+        }
+        else {
+            self.viewContainer.backgroundColor = self.UIColorFromRGB(0xFFFFFF)
+            self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0xFFFFFF)
+            self.billField.textColor = self.UIColorFromRGB(0x0C0C0C)
+        }
+        
         self.totalLabelContainer.hidden = true
         self.tipLabel.text = ""
-        self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0xFFFFFF)
-        self.billFieldContainer.frame.origin.y = 176
+                self.billFieldContainer.frame.origin.y = 176
         self.totalLabelContainer.frame.origin.y = 387
 
     }
     
     func setEditingState() {
-        self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0x82968C)
+        if darkMode {
+            enableDarkMode()
+        
+        }
+        else{
+            self.viewContainer.backgroundColor = self.UIColorFromRGB(0xFFFFFFF)
+            self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0x82968C)
+            self.tipLabel.textColor = self.UIColorFromRGB(0x0C0C0C)
+            self.billField.textColor = self.UIColorFromRGB(0x0C0C0C)
+            self.totalLabel.textColor = self.UIColorFromRGB(0x0C0C0C)
+            self.totalLabelContainer.backgroundColor = self.UIColorFromRGB(0xFFCC66)
+        }
         self.billFieldContainer.frame.origin.y = 62
-        UIView.animateWithDuration(0.6, animations: {
-            self.totalLabelContainer.frame.origin.y = 254
+        UIView.animateWithDuration(0.5, animations: {
+            self.totalLabelContainer.frame.origin.y = 234
             self.totalLabelContainer.hidden = false
-//            self.totalLabelContainer.backgroundColor = self.UIColorFromRGB(0x4C3B4D)
 
         })
     }
@@ -92,14 +149,18 @@ class ViewController: UIViewController {
     @IBAction func onEditingChanged(sender: AnyObject) {
         if billField.text == "" {
             self.totalLabel.hidden = true
+            editingStarted = false
             UIView.animateWithDuration(0.6, animations: {
                 self.setStartState()
             })
         }
-        if billField.text != "" {
-            UIView.animateWithDuration(0.4, animations: {
-                self.setEditingState()
-            })
+        if (billField.text != "") {
+            if (editingStarted == false) {
+                editingStarted = true
+                UIView.animateWithDuration(0.4, animations: {
+                    self.setEditingState()
+                })
+            }
             updateState()
         }
 
@@ -121,7 +182,6 @@ class ViewController: UIViewController {
             tipRightNow = Double(round(delta*100)/100)
             updateState()
         }
-//        println(translation.x)
     }
     
     @IBAction func onTap(sender: AnyObject) {
