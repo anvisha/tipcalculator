@@ -30,6 +30,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setStartState()
         handleDefaults()
+        showOldData()
         // Do any additional setup after loading the view, typically from a nib.
         dismissViewControllerAnimated(true, completion: nil)
         billField.becomeFirstResponder()}
@@ -69,19 +70,25 @@ class ViewController: UIViewController {
         
         tipRightNow = defaultTip
         
+//        defaults.setDouble(billAmount, forKey: "lastBillAmount")
+//        defaults.setDouble(tipRightNow, forKey: "lastTipPercentage")
+//        defaults.setObject(NSDate(), forKey: "lastDate")
     }
-//    
-//    func setDarkMode() {
-//        if darkMode {
-//            self.billFieldContainer.backgroundColor = self.UIColorFromRGB()
-//            self.billField.textColor = self.UIColorFromRGB(0xFFFFFF)
-//            self.tipLabel.textColor = self.UIColorFromRGB(0xFFFFFF)
-//        }
-//        else {
-//            
-//        }
-//    }
-//    
+    
+    func showOldData() {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        let lastDate = defaults.objectForKey("lastDate") as! NSDate
+        let elapsedTime = NSDate().timeIntervalSinceDate(lastDate)
+        
+        if elapsedTime < 600 {
+            tipRightNow = defaults.doubleForKey("lastTipPercentage")
+            billField.text = String(format: "%.2f", defaults.doubleForKey("lastBillAmount"))
+            println("hello")
+            billField.endEditing(true)
+            updateState()
+        }
+    }
+
     func enableDarkMode() {
         self.viewContainer.backgroundColor = self.UIColorFromRGB(0x0C0C0C)
         self.billFieldContainer.backgroundColor = self.UIColorFromRGB(0x0C0C0C)
@@ -124,6 +131,7 @@ class ViewController: UIViewController {
         }
         self.billFieldContainer.frame.origin.y = 62
         UIView.animateWithDuration(0.5, animations: {
+            println("so this happened")
             self.totalLabelContainer.frame.origin.y = 234
             self.totalLabelContainer.hidden = false
 
@@ -138,17 +146,24 @@ class ViewController: UIViewController {
     
     func updateState() {
         tipLabel.text = String(format: "%.0f%%", tipRightNow*100)
+        println(billField.text)
         var billAmount = billField.text._bridgeToObjectiveC().doubleValue
+        println(billAmount)
+        println(tipRightNow)
         var tip = billAmount * tipRightNow
         var total = billAmount + tip
-        
+        println(total)
         totalLabel.text = String(format: "$%.2f", total)
+        var defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setDouble(billAmount, forKey: "lastBillAmount")
+        defaults.setDouble(tipRightNow, forKey: "lastTipPercentage")
+        defaults.setObject(NSDate(), forKey: "lastDate")
+        defaults.synchronize()
     }
     
    
     @IBAction func onEditingChanged(sender: AnyObject) {
         if billField.text == "" {
-            self.totalLabel.hidden = true
             editingStarted = false
             UIView.animateWithDuration(0.6, animations: {
                 self.setStartState()
@@ -197,6 +212,7 @@ class ViewController: UIViewController {
             alpha: CGFloat(1.0)
         )
     }
-
+    
+    
 }
 
